@@ -1,6 +1,5 @@
 # Control the Adafruit/Sparkfun thermal printer from node.js
 
-[![npm](https://img.shields.io/npm/v/thermalprinter.svg?style=flat-square)](https://www.npmjs.com/package/thermalprinter) [![Travis](https://img.shields.io/travis/xseignard/thermalPrinter.svg?style=flat-square)](https://travis-ci.org/xseignard/thermalPrinter) [![Code Climate](https://img.shields.io/codeclimate/coverage/github/xseignard/thermalPrinter.svg?style=flat-square)](https://codeclimate.com/github/xseignard/thermalPrinter/coverage)
 
 Largely inspired by http://electronicfields.wordpress.com/2011/09/29/thermal-printer-dot-net/
 
@@ -50,7 +49,3 @@ serialPort.on('open',function() {
 	});
 });
 ```
-
-## Demo
-
-![demo](/images/demo.gif)

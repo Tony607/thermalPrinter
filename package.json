@@ -4,7 +4,7 @@
   "description": "Use node.js to communicate with Adafruit/Sparkfun Thermal Printer",
   "repository": {
     "type": "git",
-    "url": "git://github.com/xseignard/thermalPrinter.git"
+    "url": "git://github.com/Tony607/thermalPrinter.git"
   },
   "main": "src/printer.js",
   "files": [
@@ -33,9 +33,9 @@
     "serialport"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/xseignard/thermalPrinter",
+  "homepage": "https://github.com/Tony607/thermalPrinter",
   "bugs": {
-    "url": "https://github.com/xseignard/thermalPrinter/issues"
+    "url": "https://github.com/Tony607/thermalPrinter/issues"
   },
   "dependencies": {
     "async": "^1.5.0",
@@ -43,12 +43,12 @@
     "get-pixels": "^3.2.3"
   },
   "devDependencies": {
-    "chai": "latest",
+    "chai": "^4.0.0",
     "codeclimate-test-reporter": "latest",
     "istanbul": "latest",
     "jshint": "latest",
-    "mocha": "latest",
+    "mocha": "^3.0.2",
     "rimraf": "latest",
-    "serialport": "latest"
+    "serialport": "^6.0.4"
   }
 }

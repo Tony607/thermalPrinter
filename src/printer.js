@@ -296,7 +296,7 @@ Printer.prototype.printLine = function (text) {
 	return this.printText(text).writeCommand(10);
 };
 
-Printer.prototype.printImage = function(path){
+Printer.prototype.printImage = function(path, reverse = false, threshold = 0.6){
 	var done = false;
 
 	var _self = this;
@@ -323,7 +323,7 @@ Printer.prototype.printImage = function(path){
 
 						var brightness = helpers.rgbToHsl(r, g, b)[2];
 						// only print dark stuff
-						if (brightness < 0.6) {
+						if ((reverse && brightness > threshold) || (!reverse && brightness < threshold)) {
 							imgData[y][x] += (1 << n);
 						}
 					}
