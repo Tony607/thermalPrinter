@@ -1,9 +1,8 @@
-var SerialPort = require('serialport'),
-	serialPort = new SerialPort('/dev/ttyUSB0', {
-		baudrate: 19200
-	}),
-	Printer = require('../src/printer'),
-	twitter = require('ntwitter');
+var SerialPort = require('serialport')
+serialPort = new SerialPort('COM3', {
+	baudRate: 9600
+}),
+Printer = require('../src/printer')
 
 serialPort.on('open',function() {
 	var printer = new Printer(serialPort);

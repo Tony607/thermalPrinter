@@ -1,6 +1,6 @@
 var SerialPort = require('serialport'),
-	serialPort = new SerialPort('/dev/ttyUSB0', {
-		baudRate: 19200
+	serialPort = new SerialPort('COM3', {
+		baudRate: 9600
 	}),
 	Printer = require('../src/printer');
 

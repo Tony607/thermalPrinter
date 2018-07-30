@@ -48,7 +48,7 @@ var Printer = function(serialPort, opts) {
 	this.heatingTime = opts.heatingTime || 80;
 	// Heating interval (0-255), unit: 10µs, default: 2 (20µs)
 	this.heatingInterval = opts.heatingInterval || 2;
-	// delay between 2 commands (in µs)
+	// delay between 2 commands (in ms)
 	this.commandDelay = opts.commandDelay || 0;
 	// chinese firmware, for some reasons some thermal printers come with a firmware that don't handle all latin chars
 	// but we can do some hacky stuff to have almost every chars
@@ -296,7 +296,7 @@ Printer.prototype.printLine = function (text) {
 	return this.printText(text).writeCommand(10);
 };
 
-Printer.prototype.printImage = function(path, reverse = false, threshold = 0.6){
+Printer.prototype.printImage = function(path, reverse = false, threshold = 0.6, rotate = false){
 	var done = false;
 
 	var _self = this;
@@ -305,10 +305,13 @@ Printer.prototype.printImage = function(path, reverse = false, threshold = 0.6){
 			var width = pixels.shape[0];
 			var height = pixels.shape[1];
 
-			if (width != 384 || height > 65635) {
+			if ((!rotate && (width != 384 || height > 65635)) || (rotate && (height != 384 ||  width> 65635))) {
 				throw new Error('Image width must be 384px, height cannot exceed 65635px.');
 			}
-
+			if (rotate) {
+				height = width
+				width = 384
+			}
 			// contruct an array of Uint8Array,
 			// each Uint8Array contains 384/8 pixel samples, corresponding to a whole line
 			var imgData = [];
@@ -317,10 +320,16 @@ Printer.prototype.printImage = function(path, reverse = false, threshold = 0.6){
 				for (var x = 0; x < (width/8); x++) {
 					imgData[y][x] = 0;
 					for (var n = 0; n < 8; n++) {
-						var r = pixels.get(x*8+n, y, 0);
-						var g = pixels.get(x*8+n, y, 1);
-						var b = pixels.get(x*8+n, y, 2);
-
+						let r, g, b=0
+						if (!rotate) {
+							r = pixels.get(x*8+n, y, 0);
+							g = pixels.get(x*8+n, y, 1);
+							b = pixels.get(x*8+n, y, 2);
+						} else {
+							r = pixels.get(height - y, x*8+n, 0);
+							g = pixels.get(height - y, x*8+n, 1);
+							b = pixels.get(height - y, x*8+n, 2);
+						}
 						var brightness = helpers.rgbToHsl(r, g, b)[2];
 						// only print dark stuff
 						if ((reverse && brightness > threshold) || (!reverse && brightness < threshold)) {

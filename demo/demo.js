@@ -1,37 +1,36 @@
 var SerialPort = require('serialport'),
-	serialPort = new SerialPort('/dev/ttyUSB0', {
-		baudrate: 19200
+	serialPort = new SerialPort('COM3', {
+		baudRate: 9600
 	}),
 	Printer = require('../src/printer');
 
-var nodebots = __dirname + '/../images/nodebot.png';
-var logo = __dirname + '/../images/logo.png';
+var c1 = __dirname + '/../images/table1.png';
+var cl = __dirname + '/../images/c_l.png';
+var cw = __dirname + '/../images/c_w.png';
 
-serialPort.on('open',function() {
+serialPort.on('open',() => {
 	var opts = {
-		maxPrintingDots: 15,
-		heatingTime: 150,
+		maxPrintingDots: 5,
+		heatingTime: 60,
 		heatingInterval: 4,
-		commandDelay: 5
+		commandDelay: 5000
 	};
 	var printer = new Printer(serialPort, opts);
 	printer.on('ready', function() {
 		printer
-			.indent(10)
-			.horizontalLine(16)
-			.bold(true)
-			.printLine('first line')
-			.bold(false)
-			.inverse(true)
-			.big(true)
-			.right()
-			.printLine('second line')
-			.printImage(logo)
-			.lineFeed(3)
-			.printImage(nodebots)
-			.print(function() {
-				console.log('done');
-				process.exit();
-			});
+		.printLine('|-------2018/7/30-----|')
+		.printImage(c1, true, 0.2, true)
+		.printImage(cl, true, 0.2, true)
+		.printImage(cw, true, 0.2, true)
+		.printLine('|---->>>>><<<<END>>>--|')
+		.lineFeed(3)
+		.print(function() {
+			console.log('done');
+			process.exit();
+		});
 	});
 });
+
+serialPort.on('data', (data) => {
+    console.log(data)
+  })
